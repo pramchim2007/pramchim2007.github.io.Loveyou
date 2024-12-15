@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เซอร์ไพรส์ในซองจดหมาย!</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+            overflow: hidden;
+        }
+
+        .question {
+            text-align: center;
+            position: relative;
+            background: #fff9e6;
+            border: 3px dashed #ff6f61;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            width: 80%;
+            max-width: 400px;
+            margin: 20px auto;
+            color: #333;
+            animation: floatEffect 2s infinite ease-in-out;
+        }
+
+        @keyframes floatEffect {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .buttons {
+            margin-top: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn.yes {
+            background-color: #28a745;
+        }
+
+        .btn.no {
+            background-color: #dc3545;
+        }
+
+        .envelope-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .envelope {
+            position: relative;
+            width: 250px;
+            height: 180px;
+            background: #f6d2ba;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .envelope:hover {
+            transform: rotate(-3deg);
+        }
+
+        .flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: #f09884;
+            border-radius: 10px 10px 0 0;
+            transform-origin: top;
+            transform: rotateX(0);
+            transition: transform 0.5s;
+        }
+
+        .envelope.open .flap {
+            transform: rotateX(-180deg);
+        }
+
+        .message {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+            z-index: 1000;
+        }
+
+        .message h1 {
+            color: #ff6f61;
+            margin-bottom: 10px;
+        }
+
+        .message p {
+            font-size: 16px;
+            color: #444;
+        }
+
+        .message button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            border: none;
+            background: #ff6f61;
+            color: white;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .message button:hover {
+            background: #e6554f;
+        }
+
+        /* รูปภาพที่ลอยทั้งหน้า */
+        .floating-image {
+            position: fixed;
+            width: 150px; /* ขนาดของภาพ */
+            height: 150px;
+            background-size: cover;
+            animation: floatUp 4s ease-in-out infinite;
+            pointer-events: none;
+            border-radius: 30%;
+        }
+
+        @keyframes floatUp {
+            0% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            50% {
+                opacity: 0.7;
+                transform: translateY(-150px);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(-300px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="question">
+        <h1>อยากเห็นข้อความข้างในอ๊ะยางงคุณเธอ</h1>
+        <h4>(ถึงจะกดNoก็กดไม่ได้หรอกปุ่มมันหนี🤣)</h4>
+        <div class="buttons">
+            <button class="btn yes" onclick="showEnvelope()">Yes</button>
+            <button class="btn no" onmouseover="moveButton()">No</button>
+        </div>
+    </div>
+
+    <div class="envelope-container" id="envelopeContainer">
+        <h2>คลิกที่ซองจดหมายเพื่อเปิด!</h2>
+        <div class="envelope" onclick="openEnvelope()">
+            <div class="flap"></div>
+        </div>
+    </div>
+
+    <div class="message" id="message">
+        <h1>สุขสันต์วันเกิดนะค้าบ❤️</h1>
+        <p>ก้ไม่มีอะไรมากหรอกค้าบตอนเเรกเค้าอยากจะให้ปีใหม่เธอเเต่เอาเป็นวันเกิดเธอดีกว่าตอนเเรกเค้าอยากขอเธอคบมากเลยเค้าชอบเธอมากเเต่เค้าไม่รู้ว่าเธอพร้อมเปิดใจคบกับเค้ารึยังก็ประมารนี้เเหละค้าบวันนี้ก็วันเกิดเธอก็สุขสันต์วันเกิดนะค้าบผมชอบเธอมากรักเธอนะค้าบเเล้วก็ถ้าไม่ปฏิเสธอะไรลองมาคบกับเค้าดูมั้ยเเฮะๆ</p>
+        <button onclick="closeMessage()">ปิดข้อความ</button>
+    </div>
+
+    <script>
+        function moveButton() {
+            const button = document.querySelector('.btn.no');
+            const randomX = Math.random() * 200 - 100;
+            const randomY = Math.random() * 200 - 100;
+            button.style.transform = `translate(${randomX}px, ${randomY}px)`;
+        }
+
+        function showEnvelope() {
+            document.querySelector('.question').style.display = 'none';
+            document.getElementById('envelopeContainer').style.display = 'flex';
+        }
+
+        function openEnvelope() {
+            document.querySelector('.envelope').classList.add('open');
+            document.getElementById('message').style.display = 'block';
+            startFloatingImages();  // เริ่มต้นการลอยของภาพ
+        }
+
+        function closeMessage() {
+            document.getElementById('message').style.display = 'none';
+        }
+
+        function startFloatingImages() {
+            // เปลี่ยน URL ของภาพที่ต้องการใช้
+            const images = [
+                'https://media.discordapp.net/attachments/1272179399214501929/1317882408627998870/IMG_20241210_182529_094.webp?ex=67604d23&is=675efba3&hm=230783f8b1efba78baa39618b2ebfc06cd9d69ae254372a66a2ceefc6e50e4ba&=&format=webp&width=377&height=670',  // เปลี่ยน URL นี้เป็นของคุณ
+                'https://media.discordapp.net/attachments/1272179399214501929/1317882408627998870/IMG_20241210_182529_094.webp?ex=67604d23&is=675efba3&hm=230783f8b1efba78baa39618b2ebfc06cd9d69ae254372a66a2ceefc6e50e4ba&=&format=webp&width=377&height=670',  // เปลี่ยน URL นี้เป็นของคุณ
+                'https://media.discordapp.net/attachments/1272179399214501929/1317882408627998870/IMG_20241210_182529_094.webp?ex=67604d23&is=675efba3&hm=230783f8b1efba78baa39618b2ebfc06cd9d69ae254372a66a2ceefc6e50e4ba&=&format=webp&width=377&height=670'   // เปลี่ยน URL นี้เป็นของคุณ
+            ];
+
+            // ฟังก์ชั่นที่จะสร้างรูปภาพลอย
+            setInterval(() => {
+                createFloatingImage(images);  // สร้างภาพใหม่
+            }, 2000);  // สร้างรูปใหม่ทุก 2 วินาที
+        }
+
+        function createFloatingImage(images) {
+            const image = document.createElement('div');
+            image.className = 'floating-image';
+            image.style.backgroundImage = `url('${images[Math.floor(Math.random() * images.length)]}')`;
+            image.style.left = `${Math.random() * window.innerWidth}px`; // ตำแหน่งสุ่มบนแกน X
+            image.style.top = `${Math.random() * window.innerHeight}px`; // ตำแหน่งสุ่มบนแกน Y
+            document.body.appendChild(image);
+
+            // ลบภาพหลังจากแอนิเมชั่นเสร็จ
+            setTimeout(() => image.remove(), 4000);  // ภาพหายหลัง 4 วินาที
+        }
+    </script>
+</body>
+
+</html>
